@@ -7,7 +7,15 @@ cursor = connection.execute('select * from location')
 l = connection.cursor()
 l.execute("SELECT * FROM location")
 X = np.array(cursor.fetchall())
-
+# print(X)
+#using shape function to calculate lenght of location array
+shape = X.shape
+#print shape
+#print shape[0]
+sum_weight = np.zeros(shape[0])
+distance = np.zeros(shape[0])
+weight = np.zeros(shape[0])
+#print sum_weight
 
 sum_weight1 = 0
 sum_weight2 = 0
@@ -21,28 +29,29 @@ sum_weight9 = 0
 sum_weight10 = 0
 
 i  = 0
-while i < 10:
+while i < shape[0]:
     # distance to location1 
     # distance to loc1 is distance from loc1 to each other location multiplied by production of that plant
-    distance1 = cmath.sqrt((X[i,0]-X[0,0])*(X[i,0]-X[0,0])+(X[i,1]-X[0,1])*(X[i,1]-X[0,1]))
-    #print distance1  
+    distance1 = cmath.sqrt((X[i,0]-X[0+i,0])*(X[i,0]-X[0,0])+(X[i,1]-X[0,1])*(X[i,1]-X[0,1]))
+    print "distance 1 is %s" % distance1  
     # weighting each prodution facility is tonnage divide by distance
     # distance to current location is zero. If loop to work aroung this.
     if distance1 == 0:
          weight1 = X[i,2]
-         #print weight1
     else: 
-         weight1 = X[i,2]/cmath.sqrt((X[i,0]-X[0,0])*(X[i,0]-X[0,0])+(X[i,1]-X[0,1])*(X[i,1]-X[0,1]))
-         #print weight1
-    #sum weight of each location
+         weight = X[i,2]/cmath.sqrt((X[i,0]-X[0,0])*(X[i,0]-X[0,0])+(X[i,1]-X[0,1])*(X[i,1]-X[0,1]))
+         print weight1
+    #sum weight of each location     
     distance2 = cmath.sqrt((X[i,0]-X[1,0])*(X[i,0]-X[1,0])+(X[i,1]-X[1,1])*(X[i,1]-X[1,1])) 
+    print "distance 2 is %s" % distance2  
     if distance2 == 0:
          weight2 = X[1,2]  
-         #print weight2
+         print weight2
     else: 
          weight2 = X[1,2]/cmath.sqrt((X[i,0]-X[1,0])*(X[i,0]-X[1,0])+(X[i,1]-X[1,1])*(X[i,1]-X[1,1]))
          #print weight2     
     distance3 = cmath.sqrt((X[i,0]-X[2,0])*(X[i,0]-X[2,0])+(X[i,1]-X[2,1])*(X[i,1]-X[2,1])) 
+    print "distance 3 is %s" % distance3  
     if distance3 == 0:
          weight3 = X[2,2]  
          #print weight3
@@ -100,6 +109,7 @@ while i < 10:
          weight10 = X[9,2]/cmath.sqrt((X[i,0]-X[9,0])*(X[i,0]-X[9,0])+(X[i,1]-X[9,1])*(X[i,1]-X[9,1])) 
          #print weight10     
     sum_weight1 = weight1 + sum_weight1
+    print "sum weight is %s" % sum_weight1 
     sum_weight2 = weight2 + sum_weight2
     sum_weight3 = weight3 + sum_weight3
     sum_weight4 = weight4 + sum_weight4
@@ -111,16 +121,7 @@ while i < 10:
     sum_weight10 = weight10 + sum_weight10
     i = i + 1
     
-#print "the sum weight of location 1 is %s" % sum_weight1
-#print "the sum weight of location 2 is %s" % sum_weight2
-#print "the sum weight of location 3 is %s" % sum_weight3
-#print "the sum weight of location 4 is %s" % sum_weight4
-#print "the sum weight of location 5 is %s" % sum_weight5
-#print "the sum weight of location 6 is %s" % sum_weight6
-#print "the sum weight of location 7 is %s" % sum_weight7
-#print "the sum weight of location 8 is %s" % sum_weight8
-#print "the sum weight of location 9 is %s" % sum_weight9
-#print "the sum weight of location 10 is %s" % sum_weight10
+
 
 all_weights = np.array([sum_weight1, sum_weight2, sum_weight3, sum_weight4, sum_weight5, sum_weight6 , sum_weight7, sum_weight8, sum_weight9, sum_weight10]) 
 max_weight = (all_weights.max())
@@ -166,4 +167,5 @@ while i < 3:
     else:
         d = 5
     i = i + 1
-        
+     
+     
